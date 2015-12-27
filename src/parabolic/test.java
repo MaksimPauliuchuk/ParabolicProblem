@@ -1,3 +1,4 @@
+package parabolic;
 import java.util.LinkedList;
 
 public class test {

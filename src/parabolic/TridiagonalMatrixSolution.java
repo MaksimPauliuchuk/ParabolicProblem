@@ -1,3 +1,4 @@
+package parabolic;
 public class TridiagonalMatrixSolution {
     static double[] Solve(double[][] matrix, double[] f) {
         double[][] AdditionalValues = new double[2][matrix.length];

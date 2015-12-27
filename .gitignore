@@ -1,0 +1,21 @@
+!.gitignore
+/LunchToolApp/**/.project
+/LunchToolApp/**/.settings
+/LunchToolApp/**/.classpath
+/LunchToolApp/**/.checkstyle
+/LunchToolApp/**/target
+**/.project
+**/.settings
+**/.idea/
+**/.idea
+**/*.*~
+**/*.jar
+**/*.class
+**/*.log
+**/target/
+**/*.iml
+
+# Package Files #
+*.jar
+*.war
+*.ear

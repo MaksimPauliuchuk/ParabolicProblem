@@ -1,3 +1,5 @@
+package parabolic;
+
 import javax.swing.*;
 
 import java.awt.*;

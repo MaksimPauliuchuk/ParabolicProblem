@@ -1,3 +1,4 @@
+package parabolic;
 public class QuasilinearParabolicProblem
 {
     int N, M;
