@@ -89,23 +89,22 @@ public class QuasilinearParabolicProblem
 
     public double[] progonka(double t, int m, double[] stroka, double tao)
     {
-        double beta = 0.1, matrixD_f[][], vectorDelta_Xn[], vectorF_Xn[], vectorY_M_iter[];
-        matrixD_f = new double[N + 1][N + 1];
+        double beta = 0.1,  vectorDelta_Xn[], vectorF_Xn[], vectorY_M_iter[];
+        double[] left = new double[N], center = new double[N + 1], right = new double[N];
         vectorF_Xn = new double[N + 1];
-        vectorY_M_iter = new double[N + 1];
-        System.arraycopy(stroka, 0, vectorY_M_iter, 0, vectorY_M_iter.length);
+        vectorY_M_iter = stroka.clone();
         while (true)
         {
-            matrixD_f[0][0] = matrixD_f[N][N] = 1;
+            center[0] = center[N] = 1;
             vectorF_Xn[0] = vectorY_M_iter[0] - solveMu2(tao * m + t, m * h);
             vectorF_Xn[N] = vectorY_M_iter[N] - solveMu3(tao * m + t, lengthX);
-            for (int n = 1; n < matrixD_f.length - 1; n++)
+            for (int n = 1; n < center.length - 1; n++)
             {
-                matrixD_f[n][n - 1] = ((solveK2(tao * m + t, n * h, stroka[n])) / (2 * h * h))
+                left[n - 1] = ((solveK2(tao * m + t, n * h, stroka[n])) / (2 * h * h))
                         * (vectorY_M_iter[n + 1] - vectorY_M_iter[n - 1])
                         - solveK1(tao * m + t, n * h, stroka[n]) / (h * h);
-                matrixD_f[n][n] = 1.0 / tao + (2 * solveK1(tao * m + t, n * h, stroka[n])) / (h * h);
-                matrixD_f[n][n + 1] = -(solveK2(tao * m + t, n * h, stroka[n]) / (2 * h * h))
+                center[n] = 1.0 / tao + (2 * solveK1(tao * m + t, n * h, stroka[n])) / (h * h);
+                right[n] = -(solveK2(tao * m + t, n * h, stroka[n]) / (2 * h * h))
                         * (vectorY_M_iter[n + 1] - vectorY_M_iter[n - 1])
                         - (solveK1(tao * m + t, n * h, stroka[n])) / (h * h);
                 vectorF_Xn[n] = (vectorY_M_iter[n] - stroka[n]) / tao
@@ -122,7 +121,7 @@ public class QuasilinearParabolicProblem
                 vectorF_Xn[n] *= -beta;
             }
             norma_Xn = Math.sqrt(norma_Xn);
-            vectorDelta_Xn = TridiagonalMatrixSolution.Solve(matrixD_f, vectorF_Xn);
+            vectorDelta_Xn = TridiagonalMatrixSolution.Solve(left, center, right, vectorF_Xn);
 
             for (int n = 0; n < vectorY_M_iter.length; n++)
             {
