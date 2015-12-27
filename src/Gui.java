@@ -1,7 +1,5 @@
 import javax.swing.*;
 
-import matchParser.MatchParser;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.LinkedList;
@@ -203,7 +201,7 @@ public class Gui extends JFrame
         obj2.realFunctionAndNeviazka();
         */
         
-        QuasilinearParabolicProblem2 obj3 = new QuasilinearParabolicProblem2(this);
+        QuasilinearParabolicProblem obj3 = new QuasilinearParabolicProblem(this);
         obj3.initialization();
         obj3.conditions();
         obj3.ruleRunge();

@@ -1,10 +1,3 @@
-package matchParser;
-
-/**
- *
- * @author shurik
- */
-
 import java.util.HashMap;
 
 public class MatchParser
