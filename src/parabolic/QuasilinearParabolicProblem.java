@@ -28,7 +28,7 @@ public class QuasilinearParabolicProblem
     {
         h = lengthX / N;
         //tao = lengthT / M;
-        tao = 0.08;
+        tao = 0.001; // подобрал хорошее тау
         vector = new double[N + 1];
         vectorTao1 = new double[N + 1];
         vectorTao2 = new double[N + 1];
