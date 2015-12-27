@@ -28,7 +28,7 @@ public class QuasilinearParabolicProblem
     {
         h = lengthX / N;
         //tao = lengthT / M;
-        tao = 0.025;
+        tao = 0.08;
         vector = new double[N + 1];
         vectorTao1 = new double[N + 1];
         vectorTao2 = new double[N + 1];
@@ -67,20 +67,42 @@ public class QuasilinearParabolicProblem
                 i++;
             }
         }
+        System.out.println(tao);
         System.out.println("Find tao_optim: " + (System.currentTimeMillis() - time));
         long max = 0;
         long itter = 0;
+        long Maxitter = (long) ((lengthT - t)/tao) + 1;
         while (t <= lengthT)
         {
+
             time = System.currentTimeMillis();
             vector = findAnswerVector(t, 1, vector, tao);
             t += tao;
             itter++;
+            if (itter == (long) (0.1*Maxitter)) {
+                System.out.print("10% ");
+            }else if (itter == (long) (0.2*Maxitter)) {
+                System.out.print("20% ");
+            }else if (itter == (long) (0.3*Maxitter)) {
+                System.out.print("30% ");
+            }else if (itter == (long) (0.4*Maxitter)) {
+                System.out.print("40% ");
+            }else if (itter == (long) (0.5*Maxitter)) {
+                System.out.print("50% ");
+            }else if (itter == (long) (0.6*Maxitter)) {
+                System.out.print("60% ");
+            }else if (itter == (long) (0.7*Maxitter)) {
+                System.out.print("70% ");
+            }else if (itter == (long) (0.8*Maxitter)) {
+                System.out.print("80% ");
+            }else if (itter == (long) (0.9*Maxitter)) {
+                System.out.print("90%");
+            }
             time = System.currentTimeMillis() - time;
             if (max < time) max = time;
         }
         System.out.println("Going to end :" + max);
-        System.out.println("Count of itter =" + itter);
+        System.out.println("Count of itterations =" + itter);
         //TridiagonalMatrixSolution.Print(vector);
         realFunctionAndNeviazka(vector);
 
