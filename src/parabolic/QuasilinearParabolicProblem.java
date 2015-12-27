@@ -27,7 +27,8 @@ public class QuasilinearParabolicProblem
     public void initialization()
     {
         h = lengthX / N;
-        tao = lengthT / M;
+        //tao = lengthT / M;
+        tao = 0.025;
         vector = new double[N + 1];
         vectorTao1 = new double[N + 1];
         vectorTao2 = new double[N + 1];
@@ -46,7 +47,7 @@ public class QuasilinearParabolicProblem
     {
         int i = 0;
         double tao1 = tao, tao2;
-
+        long time = System.currentTimeMillis();
         vectorTao1 = findAnswerVector(t, 2 ^ i, vector, tao1);
         while (true)
         {
@@ -66,13 +67,21 @@ public class QuasilinearParabolicProblem
                 i++;
             }
         }
-
+        System.out.println("Find tao_optim: " + (System.currentTimeMillis() - time));
+        long max = 0;
+        long itter = 0;
         while (t <= lengthT)
         {
+            time = System.currentTimeMillis();
             vector = findAnswerVector(t, 1, vector, tao);
             t += tao;
+            itter++;
+            time = System.currentTimeMillis() - time;
+            if (max < time) max = time;
         }
-        TridiagonalMatrixSolution.Print(vector);
+        System.out.println("Going to end :" + max);
+        System.out.println("Count of itter =" + itter);
+        //TridiagonalMatrixSolution.Print(vector);
         realFunctionAndNeviazka(vector);
 
     }
