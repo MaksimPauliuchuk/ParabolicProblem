@@ -189,20 +189,12 @@ public class Gui extends JFrame
     void start()
     {
         /*
-        QuasilinearParabolicProblem obj = new QuasilinearParabolicProblem(this);
-        obj.initialization();
-        obj.conditions();
-        double tao = obj.RuleRunge();
-        obj.realFunctionAndNeviazka();
+         * QuasilinearParabolicProblem obj = new QuasilinearParabolicProblem(this); obj.initialization();
+         * obj.conditions(); double tao = obj.RuleRunge(); obj.realFunctionAndNeviazka(); QuasilinearParabolicProblem
+         * obj2 = new QuasilinearParabolicProblem(this); obj2.initialization(); obj2.conditions(); obj2.RuleRunge(tao);
+         * obj.realFunctionAndNeviazka(); obj2.realFunctionAndNeviazka();
+         */
 
-        QuasilinearParabolicProblem obj2 = new QuasilinearParabolicProblem(this);
-        obj2.initialization();
-        obj2.conditions();
-        obj2.RuleRunge(tao);
-        obj.realFunctionAndNeviazka();
-        obj2.realFunctionAndNeviazka();
-        */
-        
         QuasilinearParabolicProblem obj3 = new QuasilinearParabolicProblem(this);
         obj3.initialization();
         obj3.conditions();

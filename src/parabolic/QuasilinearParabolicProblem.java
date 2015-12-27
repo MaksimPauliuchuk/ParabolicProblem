@@ -1,4 +1,5 @@
 package parabolic;
+
 public class QuasilinearParabolicProblem
 {
     int N, M;
@@ -65,15 +66,15 @@ public class QuasilinearParabolicProblem
                 i++;
             }
         }
-        
-        while ( t <= lengthT)
+
+        while (t <= lengthT)
         {
             vector = findAnswerVector(t, 1, vector, tao);
-            t+=tao;
+            t += tao;
         }
         TridiagonalMatrixSolution.Print(vector);
         realFunctionAndNeviazka(vector);
-        
+
     }
 
     private double[] findAnswerVector(double tBase, int M, double[] stroka, double tao)
@@ -180,7 +181,7 @@ public class QuasilinearParabolicProblem
         System.out.printf("%20.15f", nev);
         System.out.println();
     }
-    
+
     private double solveMu1(double t, double x)
     {
         MatchParser matchParser = new MatchParser();
