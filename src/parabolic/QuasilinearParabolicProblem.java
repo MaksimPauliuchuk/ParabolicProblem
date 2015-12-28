@@ -2,11 +2,11 @@ package parabolic;
 
 public class QuasilinearParabolicProblem
 {
-    int N, M;
-    double lengthX, lengthT;
-    double h, tao, epsRunge, epsProgonka;
-    double vector[], vectorTao1[], vectorTao2[], t;
-    String mu1, mu2, mu3, k1, k2, g;
+    private int N, M;
+    private double lengthX, lengthT;
+    private double h, tao, epsRunge, epsProgonka;
+    private double vector[], vectorTao1[], vectorTao2[], t;
+    private String mu1, mu2, mu3, k1, k2, g;
 
     public QuasilinearParabolicProblem(Gui gui)
     {
@@ -43,7 +43,7 @@ public class QuasilinearParabolicProblem
         }
     }
 
-    public void ruleRunge()
+    public double ruleRunge()
     {
         int i = 0;
         double tao1 = tao, tao2;
@@ -67,8 +67,8 @@ public class QuasilinearParabolicProblem
                 i++;
             }
         }
-        System.out.println(tao);
-        System.out.println("Find tao_optim: " + (System.currentTimeMillis() - time));
+        System.out.println("Tao: \t" + tao);
+        System.out.println("Time to find tao optim: " + (System.currentTimeMillis() - time));
         long max = 0;
         long itter = 0;
         long Maxitter = (long) ((lengthT - t)/tao) + 1;
@@ -101,11 +101,56 @@ public class QuasilinearParabolicProblem
             time = System.currentTimeMillis() - time;
             if (max < time) max = time;
         }
-        System.out.println("Going to end :" + max);
-        System.out.println("Count of itterations =" + itter);
+        System.out.println("\nGoing to end: " + max);
+        System.out.println("Count of itterations = " + itter);
         //TridiagonalMatrixSolution.Print(vector);
+        vectorTao1 = vector.clone();
         realFunctionAndNeviazka(vector);
+        return tao1;
+    }
+    
+    public void findAnsverFromTao(double tao)
+    {
+        long time = System.currentTimeMillis();
+        t = 0;
+        System.out.println("Tao/2: \t" + tao);
+        long max = 0;
+        long itter = 0;
+        long Maxitter = (long) ((lengthT - t)/tao) + 1;
+        while (t <= lengthT)
+        {
 
+            time = System.currentTimeMillis();
+            vector = findAnswerVector(t, 1, vector, tao);
+            t += tao;
+            itter++;
+            if (itter == (long) (0.1*Maxitter)) {
+                System.out.print("10% ");
+            }else if (itter == (long) (0.2*Maxitter)) {
+                System.out.print("20% ");
+            }else if (itter == (long) (0.3*Maxitter)) {
+                System.out.print("30% ");
+            }else if (itter == (long) (0.4*Maxitter)) {
+                System.out.print("40% ");
+            }else if (itter == (long) (0.5*Maxitter)) {
+                System.out.print("50% ");
+            }else if (itter == (long) (0.6*Maxitter)) {
+                System.out.print("60% ");
+            }else if (itter == (long) (0.7*Maxitter)) {
+                System.out.print("70% ");
+            }else if (itter == (long) (0.8*Maxitter)) {
+                System.out.print("80% ");
+            }else if (itter == (long) (0.9*Maxitter)) {
+                System.out.print("90%");
+            }
+            time = System.currentTimeMillis() - time;
+            if (max < time) max = time;
+        }
+        System.out.println("\nGoing to end: " + max);
+        System.out.println("Count of itterations = " + itter);
+        //TridiagonalMatrixSolution.Print(vector);
+        vectorTao2 = vector.clone();
+        realFunctionAndNeviazka(vector);
     }
 
     private double[] findAnswerVector(double tBase, int M, double[] stroka, double tao)
@@ -199,20 +244,34 @@ public class QuasilinearParabolicProblem
     private void realFunctionAndNeviazka(double[] vect)
     {
         double func;
-        System.out.println();
         double nev = 0;
         for (int j = 0; j <= N; j++)
         {
             func = j * h * j * h + lengthT * lengthT + lengthT * lengthT * j * h * j * h;
             //func = j * h * j * h + lengthT;
             nev += Math.pow((Math.abs(func - vect[j])), 2);
-            System.out.println(func + " " + vect[j]);
+            //System.out.println(func + " " + vect[j]);
         }
         nev = Math.sqrt(nev);
-        System.out.printf("%20.15f", nev);
+        System.out.printf("Residual with concrete solve:\n%20.15f", nev);
         System.out.println();
     }
 
+    void findResidual()
+    {
+        double nev = 0;
+        for (int j = 0; j <= N; j++)
+        {
+            nev += Math.pow((Math.abs(vectorTao1[j] - vectorTao2[j])), 2);
+            //System.out.println(func + " " + vect[j]);
+        }
+        nev = Math.sqrt(nev);
+        System.out.printf("\nResidual: %20.15f", nev);
+        System.out.println();
+        System.out.println();
+        System.out.println();
+    }
+    
     private double solveMu1(double t, double x)
     {
         MatchParser matchParser = new MatchParser();

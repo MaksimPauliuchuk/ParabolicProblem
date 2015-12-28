@@ -76,7 +76,7 @@ public class Gui extends JFrame
         textAreas[8].setText("1e-4");
         textAreas[9].setText("1e-4");
         textAreas[10].setText("10");
-        textAreas[11].setText("100");
+        textAreas[11].setText("10");
 
         int nowWidth = otstupHoriz, nowHeight = 75 + otstupVertic;
 
@@ -213,7 +213,16 @@ public class Gui extends JFrame
         QuasilinearParabolicProblem obj3 = new QuasilinearParabolicProblem(this);
         obj3.initialization();
         obj3.conditions();
-        obj3.ruleRunge();
-        System.out.println(System.currentTimeMillis() - time);
+        double tao = obj3.ruleRunge();
+        System.out.println("Time with tao: " + (System.currentTimeMillis() - time));
+        System.out.println();
+        
+        time = System.currentTimeMillis();
+        obj3.conditions();
+        obj3.findAnsverFromTao(tao/2.0);
+        System.out.println("Time with tao/2: " + (System.currentTimeMillis() - time));
+        
+        obj3.findResidual();
+        
     }
 }
