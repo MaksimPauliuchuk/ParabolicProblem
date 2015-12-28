@@ -11,7 +11,7 @@ public class QuasilinearParabolicProblem
     public QuasilinearParabolicProblem(Gui gui)
     {
         this.N = gui.N;
-        this.M = N; // поменять
+        this.M = gui.M; // поменять
         this.lengthX = gui.lengthX;
         this.lengthT = gui.lengthT;
         this.mu1 = gui.textAreas[0].getText();
@@ -27,8 +27,8 @@ public class QuasilinearParabolicProblem
     public void initialization()
     {
         h = lengthX / N;
-        //tao = lengthT / M;
-        tao = 0.001; // подобрал хорошее тау
+        tao = lengthT / M;
+        //tao = 0.001; // подобрал хорошее тау
         vector = new double[N + 1];
         vectorTao1 = new double[N + 1];
         vectorTao2 = new double[N + 1];
@@ -204,6 +204,7 @@ public class QuasilinearParabolicProblem
         for (int j = 0; j <= N; j++)
         {
             func = j * h * j * h + lengthT * lengthT + lengthT * lengthT * j * h * j * h;
+            //func = j * h * j * h + lengthT;
             nev += Math.pow((Math.abs(func - vect[j])), 2);
             System.out.println(func + " " + vect[j]);
         }

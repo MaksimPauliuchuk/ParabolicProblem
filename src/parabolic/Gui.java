@@ -16,7 +16,7 @@ public class Gui extends JFrame
     ImageIcon[] pictures = new ImageIcon[countLabels];
     JButton start = new JButton("Пуск");
     double lengthX, lengthT, eps1, eps2;
-    int N;
+    int N, M;
 
     public Gui()
     {
@@ -61,11 +61,22 @@ public class Gui extends JFrame
         textAreas[4].setText("2*u*x+t");
         textAreas[5].setText(
                 "2*t-2*t*u-2*t*t*t*u-2*u*u*x-2*t*t*u*u*x-2*t*x*x-8*t*t*t*x*x-4*t*t*t*t*t*x*x-8*u*x*x*x-16*t*t*u*x*x*x-8*t*t*t*t*u*x*x*x");
+
+        /*
+        textAreas[0].setText("x*x");
+        textAreas[1].setText("t");
+        textAreas[2].setText("x*x+t");
+        textAreas[3].setText("u*x");
+        textAreas[4].setText("x");
+        textAreas[5].setText("1-4*x*x*x-2*u*x");
+        */
+
         textAreas[6].setText("1");
         textAreas[7].setText("1");
         textAreas[8].setText("1e-4");
         textAreas[9].setText("1e-4");
         textAreas[10].setText("10");
+        textAreas[11].setText("100");
 
         int nowWidth = otstupHoriz, nowHeight = 75 + otstupVertic;
 
@@ -118,6 +129,11 @@ public class Gui extends JFrame
                 pictures[i].getIconHeight());
         nowWidth += pictures[i].getIconWidth();
         textAreas[i].setBounds(nowWidth, nowHeight + (pictures[i].getIconHeight() + 20) / 2, 30, 16);
+
+        i = 11;
+        labels[i].setBounds(nowWidth - pictures[i].getIconWidth(), otstupVertic + 30 + nowHeight,
+                pictures[i].getIconWidth(), pictures[i].getIconHeight());
+        textAreas[i].setBounds(nowWidth, nowHeight + 30 + (pictures[i].getIconHeight() + 20) / 2, 30, 16);
 
         nowWidth += 4 * otstupHoriz - 10;
         for (i = 8; i < 10; i++)
@@ -181,6 +197,7 @@ public class Gui extends JFrame
         lengthT = Double.parseDouble(textAreas[6].getText());
         lengthX = Double.parseDouble(textAreas[7].getText());
         N = Integer.parseInt(textAreas[10].getText());
+        M = Integer.parseInt(textAreas[11].getText());
         start();
     }
 
