@@ -2,14 +2,11 @@ package parabolic;
 
 import javax.swing.*;
 
-import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYSplineRenderer;
-import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -24,7 +21,13 @@ public class Gui extends JFrame
     JLabel[] labels = new JLabel[countLabels];
     JLabel nevTitle = new JLabel("Невязка:");
     JLabel nevDate = new JLabel();
+    JLabel nev2Title = new JLabel("Невязка Рунге:");
+    JLabel nev2Date = new JLabel();
+    JLabel realFunc = new JLabel("Функция");
+    JLabel[] labelBeta = new JLabel[3];
+    JTextArea textBeta = new JTextArea();
     JTextArea[] textAreas = new JTextArea[countTextAreas];
+    JTextArea real = new JTextArea();
     ImageIcon[] pictures = new ImageIcon[countLabels];
     JButton start = new JButton("Пуск");
     double lengthX, lengthT, eps1, eps2;
@@ -32,7 +35,7 @@ public class Gui extends JFrame
 
     public Gui()
     {
-        super("^_^");
+        super("<^_^>");
         // --------------
         setLayout(null);
         setSize(width, height);
@@ -65,6 +68,17 @@ public class Gui extends JFrame
             textAreas[i] = new JTextArea();
             textAreas[i].setBackground(Color.lightGray);
         }
+        
+        for(int i = 0; i < 3; i++)
+        {
+            labelBeta[i] = new JLabel();
+        }
+        labelBeta[0].setText("1. = 1");
+        labelBeta[1].setText("2. = min(1,(beta*||Xn||)/(||Xn+1||))");
+        labelBeta[2].setText("3. = min(1,");
+        textBeta.setText("2");
+        textBeta.setBackground(Color.lightGray);
+        real.setBackground(Color.lightGray);
 
         textAreas[0].setText("x*x");
         textAreas[1].setText("t*t");
@@ -73,7 +87,7 @@ public class Gui extends JFrame
         textAreas[4].setText("2*u*x+t");
         textAreas[5].setText(
                 "2*t-2*t*u-2*t*t*t*u-2*u*u*x-2*t*t*u*u*x-2*t*x*x-8*t*t*t*x*x-4*t*t*t*t*t*x*x-8*u*x*x*x-16*t*t*u*x*x*x-8*t*t*t*t*u*x*x*x");
-
+        real.setText("x*x+t*t+x*x*t*t");
         /*
          * textAreas[0].setText("x*x"); textAreas[1].setText("t"); textAreas[2].setText("x*x+t");
          * textAreas[3].setText("u*x"); textAreas[4].setText("x"); textAreas[5].setText("1-4*x*x*x-2*u*x");
@@ -152,6 +166,17 @@ public class Gui extends JFrame
             textAreas[i].setBounds(nowWidth, nowHeight + (pictures[i].getIconHeight() + 20) / 2, 30, 16);
             nowWidth += 30 + otstupHoriz;
         }
+        real.setBounds(130, 300, 80, 16);
+        realFunc.setBounds(50, 300, 60, 16);
+        add(real);
+        add(realFunc);
+        for (i = 0; i < labelBeta.length; i++)
+        {
+            labelBeta[i].setBounds(500, 300 + i*20, 250, 16);
+            add(labelBeta[i]);
+        }
+        textBeta.setBounds(500, 360, 20, 16);
+        add(textBeta);
         for (i = 0; i < countLabels; i++)
         {
             add(labels[i]);
@@ -194,8 +219,12 @@ public class Gui extends JFrame
     {
         nevTitle.setBounds(20, height - 80, 100, 20);
         nevDate.setBounds(120, height - 80, 200, 20);
+        nev2Title.setBounds(20, height - 100, 100, 20);
+        nev2Date.setBounds(120, height - 100, 200, 20);
         add(nevTitle);
         add(nevDate);
+        add(nev2Title);
+        add(nev2Date);
     }
 
     void readAllData()
@@ -251,10 +280,6 @@ public class Gui extends JFrame
                 return new Dimension(640, 480);
             }
         };
-        /*
-        JFreeChart chart = ChartFactory.createXYLineChart("Graphics", "x", "y", dataset, PlotOrientation.VERTICAL,
-                true, true, true);
-                */
         JFrame frame = new JFrame("MinimalStaticChart");
         // Помещаем график на фрейм
         frame.getContentPane().add(chartPanel);

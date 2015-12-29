@@ -2,16 +2,19 @@ package parabolic;
 
 public class QuasilinearParabolicProblem
 {
-    private int N, M;
+    private int N, M, numberBeta;
     private double lengthX, lengthT;
     private double h, tao, epsRunge, epsProgonka;
     double vector[], vectorTao1[], vectorTao2[], t;
-    private String mu1, mu2, mu3, k1, k2, g;
+    private String mu1, mu2, mu3, k1, k2, g, real;
+    private Gui gui;
 
     public QuasilinearParabolicProblem(Gui gui)
     {
+        this.gui = gui;
         this.N = gui.N;
-        this.M = gui.M; // поменять
+        this.M = gui.M;
+        this.numberBeta = Integer.parseInt(gui.textBeta.getText());
         this.lengthX = gui.lengthX;
         this.lengthT = gui.lengthT;
         this.mu1 = gui.textAreas[0].getText();
@@ -22,13 +25,14 @@ public class QuasilinearParabolicProblem
         this.g = gui.textAreas[5].getText();
         this.epsRunge = gui.eps2;
         this.epsProgonka = gui.eps1;
+        this.real = gui.real.getText();
     }
 
     public void initialization()
     {
         h = lengthX / N;
         tao = lengthT / M;
-        //tao = 0.001; // подобрал хорошее тау
+        // tao = 0.001; // подобрал хорошее тау
         vector = new double[N + 1];
         vectorTao1 = new double[N + 1];
         vectorTao2 = new double[N + 1];
@@ -71,7 +75,7 @@ public class QuasilinearParabolicProblem
         System.out.println("Time to find tao optim: " + (System.currentTimeMillis() - time));
         long max = 0;
         long itter = 0;
-        long Maxitter = (long) ((lengthT - t)/tao) + 1;
+        long Maxitter = (long) ((lengthT - t) / tao) + 1;
         while (t <= lengthT)
         {
 
@@ -79,27 +83,45 @@ public class QuasilinearParabolicProblem
             vector = findAnswerVector(t, 1, vector, tao);
             t += tao;
             itter++;
-            if (itter == (long) (0.1*Maxitter)) {
+            if (itter == (long) (0.1 * Maxitter))
+            {
                 System.out.print("10% ");
-            }else if (itter == (long) (0.2*Maxitter)) {
+            }
+            else if (itter == (long) (0.2 * Maxitter))
+            {
                 System.out.print("20% ");
-            }else if (itter == (long) (0.3*Maxitter)) {
+            }
+            else if (itter == (long) (0.3 * Maxitter))
+            {
                 System.out.print("30% ");
-            }else if (itter == (long) (0.4*Maxitter)) {
+            }
+            else if (itter == (long) (0.4 * Maxitter))
+            {
                 System.out.print("40% ");
-            }else if (itter == (long) (0.5*Maxitter)) {
+            }
+            else if (itter == (long) (0.5 * Maxitter))
+            {
                 System.out.print("50% ");
-            }else if (itter == (long) (0.6*Maxitter)) {
+            }
+            else if (itter == (long) (0.6 * Maxitter))
+            {
                 System.out.print("60% ");
-            }else if (itter == (long) (0.7*Maxitter)) {
+            }
+            else if (itter == (long) (0.7 * Maxitter))
+            {
                 System.out.print("70% ");
-            }else if (itter == (long) (0.8*Maxitter)) {
+            }
+            else if (itter == (long) (0.8 * Maxitter))
+            {
                 System.out.print("80% ");
-            }else if (itter == (long) (0.9*Maxitter)) {
+            }
+            else if (itter == (long) (0.9 * Maxitter))
+            {
                 System.out.print("90%");
             }
             time = System.currentTimeMillis() - time;
-            if (max < time) max = time;
+            if (max < time)
+                max = time;
         }
         System.out.println("\nGoing to end: " + max);
         System.out.println("Count of itterations = " + itter);
@@ -108,7 +130,7 @@ public class QuasilinearParabolicProblem
         realFunctionAndNeviazka(vector);
         return tao1;
     }
-    
+
     public void findAnsverFromTao(double tao)
     {
         long time = System.currentTimeMillis();
@@ -116,7 +138,7 @@ public class QuasilinearParabolicProblem
         System.out.println("Tao/2: \t" + tao);
         long max = 0;
         long itter = 0;
-        long Maxitter = (long) ((lengthT - t)/tao) + 1;
+        long Maxitter = (long) ((lengthT - t) / tao) + 1;
         while (t <= lengthT)
         {
 
@@ -124,33 +146,52 @@ public class QuasilinearParabolicProblem
             vector = findAnswerVector(t, 1, vector, tao);
             t += tao;
             itter++;
-            if (itter == (long) (0.1*Maxitter)) {
+            if (itter == (long) (0.1 * Maxitter))
+            {
                 System.out.print("10% ");
-            }else if (itter == (long) (0.2*Maxitter)) {
+            }
+            else if (itter == (long) (0.2 * Maxitter))
+            {
                 System.out.print("20% ");
-            }else if (itter == (long) (0.3*Maxitter)) {
+            }
+            else if (itter == (long) (0.3 * Maxitter))
+            {
                 System.out.print("30% ");
-            }else if (itter == (long) (0.4*Maxitter)) {
+            }
+            else if (itter == (long) (0.4 * Maxitter))
+            {
                 System.out.print("40% ");
-            }else if (itter == (long) (0.5*Maxitter)) {
+            }
+            else if (itter == (long) (0.5 * Maxitter))
+            {
                 System.out.print("50% ");
-            }else if (itter == (long) (0.6*Maxitter)) {
+            }
+            else if (itter == (long) (0.6 * Maxitter))
+            {
                 System.out.print("60% ");
-            }else if (itter == (long) (0.7*Maxitter)) {
+            }
+            else if (itter == (long) (0.7 * Maxitter))
+            {
                 System.out.print("70% ");
-            }else if (itter == (long) (0.8*Maxitter)) {
+            }
+            else if (itter == (long) (0.8 * Maxitter))
+            {
                 System.out.print("80% ");
-            }else if (itter == (long) (0.9*Maxitter)) {
+            }
+            else if (itter == (long) (0.9 * Maxitter))
+            {
                 System.out.print("90%");
             }
             time = System.currentTimeMillis() - time;
-            if (max < time) max = time;
+            if (max < time)
+                max = time;
         }
         System.out.println("\nGoing to end: " + max);
         System.out.println("Count of itterations = " + itter);
         TridiagonalMatrixSolution.Print(vector);
         vectorTao2 = vector.clone();
-        realFunctionAndNeviazka(vector);
+        Double a = realFunctionAndNeviazka(vector);
+        gui.nevDate.setText(a.toString());
     }
 
     private double[] findAnswerVector(double tBase, int M, double[] stroka, double tao)
@@ -165,10 +206,33 @@ public class QuasilinearParabolicProblem
 
     public double[] progonka(double t, int m, double[] stroka, double tao)
     {
-        double beta = 0.1,  vectorDelta_Xn[], vectorF_Xn[], vectorY_M_iter[];
+        double beta, vectorDelta_Xn[], vectorF_Xn[], vectorY_M_iter[];
         double[] left = new double[N], center = new double[N + 1], right = new double[N];
         vectorF_Xn = new double[N + 1];
         vectorY_M_iter = stroka.clone();
+
+        switch (numberBeta)
+        {
+            case 1:
+            {
+                beta = 1;
+                break;
+            }
+            case 2:
+            {
+                beta = 0.1;
+                break;
+            }
+            case 3:
+            {
+                //начальное бета и гамма походу тут
+                beta = 0.1;
+                break;
+            }
+            default:
+                beta = 0.1;
+                break;
+        }
         while (true)
         {
             center[0] = center[N] = 1;
@@ -225,7 +289,27 @@ public class QuasilinearParabolicProblem
             }
             else
             {
-                beta = Math.min(1.0, beta * norma_Xn / norma_XnPlus);
+                switch (numberBeta)
+                {
+                    case 1:
+                    {
+                        beta = 1;
+                        break;
+                    }
+                    case 2:
+                    {
+                        beta = Math.min(1.0, beta * norma_Xn / norma_XnPlus);
+                        break;
+                    }
+                    case 3:
+                    {
+                        //измененное бета и гамма походу тут
+                        break;
+                    }
+                    default:
+                        beta = Math.min(1.0, beta * norma_Xn / norma_XnPlus);
+                        break;
+                }
             }
         }
     }
@@ -241,20 +325,21 @@ public class QuasilinearParabolicProblem
         return norma;
     }
 
-    private void realFunctionAndNeviazka(double[] vect)
+    private double realFunctionAndNeviazka(double[] vect)
     {
         double func;
         double nev = 0;
         for (int j = 0; j <= N; j++)
         {
             func = j * h * j * h + lengthT * lengthT + lengthT * lengthT * j * h * j * h;
-            //func = j * h * j * h + lengthT;
-            nev += Math.pow((Math.abs(func - vect[j])), 2);
-            //System.out.println(func + " " + vect[j]);
+            // func = j * h * j * h + lengthT;
+            nev += Math.pow((Math.abs(solveReal(lengthT, j * h) - vect[j])), 2);
+            // System.out.println(func + " " + vect[j]);
         }
         nev = Math.sqrt(nev);
         System.out.printf("Residual with concrete solve:\n%20.15f", nev);
         System.out.println();
+        return nev;
     }
 
     void findResidual()
@@ -263,15 +348,17 @@ public class QuasilinearParabolicProblem
         for (int j = 0; j <= N; j++)
         {
             nev += Math.pow((Math.abs(vectorTao1[j] - vectorTao2[j])), 2);
-            //System.out.println(func + " " + vect[j]);
+            // System.out.println(func + " " + vect[j]);
         }
         nev = Math.sqrt(nev);
+        Double n = nev;
+        gui.nev2Date.setText(n.toString());
         System.out.printf("\nResidual: %20.15f", nev);
         System.out.println();
         System.out.println();
         System.out.println();
     }
-    
+
     private double solveMu1(double t, double x)
     {
         MatchParser matchParser = new MatchParser();
@@ -377,5 +464,23 @@ public class QuasilinearParabolicProblem
             e.printStackTrace();
         }
         return result;
+    }
+
+    private double solveReal(double t, double x)
+    {
+        MatchParser matchParser = new MatchParser();
+        matchParser.setVariable("t", t);
+        matchParser.setVariable("x", x);
+        double result = 0.0;
+        try
+        {
+            result = matchParser.Parse(real);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return result;
+
     }
 }
