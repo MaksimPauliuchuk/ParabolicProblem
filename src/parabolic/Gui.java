@@ -5,7 +5,10 @@ import javax.swing.*;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYSplineRenderer;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -236,11 +239,25 @@ public class Gui extends JFrame
         dataset.addSeries(series);
         dataset.addSeries(series1);
 
+        NumberAxis domain = new NumberAxis("x");
+        NumberAxis range = new NumberAxis("f(x)");
+        XYSplineRenderer r = new XYSplineRenderer(3);
+        XYPlot xyplot = new XYPlot(dataset, domain, range, r);
+        JFreeChart chart = new JFreeChart(xyplot);
+        ChartPanel chartPanel = new ChartPanel(chart){
+
+            @Override
+            public Dimension getPreferredSize() {
+                return new Dimension(640, 480);
+            }
+        };
+        /*
         JFreeChart chart = ChartFactory.createXYLineChart("Graphics", "x", "y", dataset, PlotOrientation.VERTICAL,
                 true, true, true);
+                */
         JFrame frame = new JFrame("MinimalStaticChart");
         // Помещаем график на фрейм
-        frame.getContentPane().add(new ChartPanel(chart));
+        frame.getContentPane().add(chartPanel);
         frame.setSize(400, 300);
         frame.show();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
