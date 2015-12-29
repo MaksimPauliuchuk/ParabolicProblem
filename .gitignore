@@ -9,14 +9,12 @@
 **/.idea/
 **/.idea
 **/*.*~
-**/*.jar
 **/*.class
 **/*.log
 **/target/
 **/*.iml
 
 # Package Files #
-*.jar
 *.war
 *.ear
 /bin/
