@@ -5,7 +5,7 @@ public class QuasilinearParabolicProblem
     private int N, M;
     private double lengthX, lengthT;
     private double h, tao, epsRunge, epsProgonka;
-    private double vector[], vectorTao1[], vectorTao2[], t;
+    double vector[], vectorTao1[], vectorTao2[], t;
     private String mu1, mu2, mu3, k1, k2, g;
 
     public QuasilinearParabolicProblem(Gui gui)
@@ -103,7 +103,7 @@ public class QuasilinearParabolicProblem
         }
         System.out.println("\nGoing to end: " + max);
         System.out.println("Count of itterations = " + itter);
-        //TridiagonalMatrixSolution.Print(vector);
+        TridiagonalMatrixSolution.Print(vector);
         vectorTao1 = vector.clone();
         realFunctionAndNeviazka(vector);
         return tao1;
@@ -148,7 +148,7 @@ public class QuasilinearParabolicProblem
         }
         System.out.println("\nGoing to end: " + max);
         System.out.println("Count of itterations = " + itter);
-        //TridiagonalMatrixSolution.Print(vector);
+        TridiagonalMatrixSolution.Print(vector);
         vectorTao2 = vector.clone();
         realFunctionAndNeviazka(vector);
     }

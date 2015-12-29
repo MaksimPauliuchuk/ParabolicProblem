@@ -1,6 +1,15 @@
 package parabolic;
 
 import javax.swing.*;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -31,7 +40,7 @@ public class Gui extends JFrame
         createNev();
         createBackground();
         // -------Создание формы
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
@@ -63,13 +72,9 @@ public class Gui extends JFrame
                 "2*t-2*t*u-2*t*t*t*u-2*u*u*x-2*t*t*u*u*x-2*t*x*x-8*t*t*t*x*x-4*t*t*t*t*t*x*x-8*u*x*x*x-16*t*t*u*x*x*x-8*t*t*t*t*u*x*x*x");
 
         /*
-        textAreas[0].setText("x*x");
-        textAreas[1].setText("t");
-        textAreas[2].setText("x*x+t");
-        textAreas[3].setText("u*x");
-        textAreas[4].setText("x");
-        textAreas[5].setText("1-4*x*x*x-2*u*x");
-        */
+         * textAreas[0].setText("x*x"); textAreas[1].setText("t"); textAreas[2].setText("x*x+t");
+         * textAreas[3].setText("u*x"); textAreas[4].setText("x"); textAreas[5].setText("1-4*x*x*x-2*u*x");
+         */
 
         textAreas[6].setText("1");
         textAreas[7].setText("1");
@@ -203,12 +208,7 @@ public class Gui extends JFrame
 
     void start()
     {
-        /*
-         * QuasilinearParabolicProblem obj = new QuasilinearParabolicProblem(this); obj.initialization();
-         * obj.conditions(); double tao = obj.RuleRunge(); obj.realFunctionAndNeviazka(); QuasilinearParabolicProblem
-         * obj2 = new QuasilinearParabolicProblem(this); obj2.initialization(); obj2.conditions(); obj2.RuleRunge(tao);
-         * obj.realFunctionAndNeviazka(); obj2.realFunctionAndNeviazka();
-         */
+
         long time = System.currentTimeMillis();
         QuasilinearParabolicProblem obj3 = new QuasilinearParabolicProblem(this);
         obj3.initialization();
@@ -216,13 +216,33 @@ public class Gui extends JFrame
         double tao = obj3.ruleRunge();
         System.out.println("Time with tao: " + (System.currentTimeMillis() - time));
         System.out.println();
-        
         time = System.currentTimeMillis();
         obj3.conditions();
-        obj3.findAnsverFromTao(tao/2.0);
+        obj3.findAnsverFromTao(tao / 2.0);
         System.out.println("Time with tao/2: " + (System.currentTimeMillis() - time));
-        
         obj3.findResidual();
-        
+
+        XYSeries series = new XYSeries("Real function");
+        XYSeries series1 = new XYSeries("Approximate function");
+
+        for (int i = 0; i <= N; i++)
+        {
+            series.add((i + 0.0) / N, lengthT * lengthT + (i + 0.0) / N * (i + 0.0) / N
+                    + lengthT * lengthT * (i + 0.0) / N * (i + 0.0) / N);
+            series1.add((i + 0.0) / N, obj3.vector[i]);
+        }
+
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        dataset.addSeries(series);
+        dataset.addSeries(series1);
+
+        JFreeChart chart = ChartFactory.createXYLineChart("Graphics", "x", "y", dataset, PlotOrientation.VERTICAL,
+                true, true, true);
+        JFrame frame = new JFrame("MinimalStaticChart");
+        // Помещаем график на фрейм
+        frame.getContentPane().add(new ChartPanel(chart));
+        frame.setSize(400, 300);
+        frame.show();
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 }

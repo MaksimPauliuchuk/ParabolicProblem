@@ -75,7 +75,7 @@ public class TridiagonalMatrixSolution
         System.out.println("Demension is " + f.length + ".");
         for (int i = 0; i < f.length; i++)
         {
-            System.out.printf("%9.3f ", f[i]);
+            System.out.printf("%9.13f ", f[i]);
         }
         System.out.println();
         System.out.println();
