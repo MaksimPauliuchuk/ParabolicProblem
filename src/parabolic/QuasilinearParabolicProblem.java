@@ -226,7 +226,7 @@ public class QuasilinearParabolicProblem
             case 3:
             {
                 beta = 0.1;
-                gamma = beta*beta;
+                gamma = beta * beta;
                 break;
             }
             default:
@@ -304,7 +304,7 @@ public class QuasilinearParabolicProblem
                     case 3:
                     {
                         betaminus = beta;
-                        beta = Math.min(1.0, gamma * norma_Xn / (norma_XnPlus * betaminus));
+                        beta = Math.min(1.0, (gamma * norma_Xn) / (norma_XnPlus * beta));
                         gamma = gamma * (norma_Xn / norma_XnPlus) * (beta / betaminus);
                         break;
                     }

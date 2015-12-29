@@ -73,9 +73,9 @@ public class Gui extends JFrame
         {
             labelBeta[i] = new JLabel();
         }
-        labelBeta[0].setText("1. = 1");
-        labelBeta[1].setText("2. = min(1,(beta*||Xn||)/(||Xn+1||))");
-        labelBeta[2].setText("3. = min(1,");
+        labelBeta[0].setText("1. = Ньютона");
+        labelBeta[1].setText("2. = Пузынина");
+        labelBeta[2].setText("3. = Модиицированной невязки");
         textBeta.setText("2");
         textBeta.setBackground(Color.lightGray);
         real.setBackground(Color.lightGray);
