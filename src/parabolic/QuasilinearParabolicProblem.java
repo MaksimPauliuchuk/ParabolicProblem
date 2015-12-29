@@ -206,7 +206,7 @@ public class QuasilinearParabolicProblem
 
     public double[] progonka(double t, int m, double[] stroka, double tao)
     {
-        double beta, vectorDelta_Xn[], vectorF_Xn[], vectorY_M_iter[];
+        double beta, gamma = 0.01, betaminus, vectorDelta_Xn[], vectorF_Xn[], vectorY_M_iter[];
         double[] left = new double[N], center = new double[N + 1], right = new double[N];
         vectorF_Xn = new double[N + 1];
         vectorY_M_iter = stroka.clone();
@@ -225,8 +225,8 @@ public class QuasilinearParabolicProblem
             }
             case 3:
             {
-                //начальное бета и гамма походу тут
                 beta = 0.1;
+                gamma = beta*beta;
                 break;
             }
             default:
@@ -303,7 +303,9 @@ public class QuasilinearParabolicProblem
                     }
                     case 3:
                     {
-                        //измененное бета и гамма походу тут
+                        betaminus = beta;
+                        beta = Math.min(1.0, gamma * norma_Xn / (norma_XnPlus * betaminus));
+                        gamma = gamma * (norma_Xn / norma_XnPlus) * (beta / betaminus);
                         break;
                     }
                     default:
