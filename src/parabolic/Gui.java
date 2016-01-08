@@ -75,7 +75,7 @@ public class Gui extends JFrame
         }
         labelBeta[0].setText("1. = Ньютона");
         labelBeta[1].setText("2. = Пузынина");
-        labelBeta[2].setText("3. = Модиицированной невязки");
+        labelBeta[2].setText("3. = Модифицированной невязки");
         textBeta.setText("2");
         textBeta.setBackground(Color.lightGray);
         real.setBackground(Color.lightGray);
